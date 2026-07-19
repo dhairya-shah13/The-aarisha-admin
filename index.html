@@ -571,9 +571,12 @@
        AARISHA — Admin Dashboard JavaScript
        ═══════════════════════════════════════════ */
 
-    // Point the browser at the FastAPI backend while the frontend is served from a
-    // different localhost port (for example, http://127.0.0.1:5500 for the static files).
-    const API = 'http://127.0.0.1:8001';
+    // Point the browser at the FastAPI backend:
+    // If running locally (localhost / 127.0.0.1), use the local FastAPI server port (8001).
+    // In production (Vercel), use the serverless API endpoint on the same origin (/api).
+    const API = ['127.0.0.1', 'localhost'].includes(location.hostname)
+      ? 'http://127.0.0.1:8001'
+      : `${location.origin}/api`;
     let token = sessionStorage.getItem('aarisha-admin-token');
     let editingId = null;
     let allProducts = [];
